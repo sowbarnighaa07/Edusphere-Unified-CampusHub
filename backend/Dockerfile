@@ -1,5 +1,6 @@
 # Multi-stage Docker build for Spring Boot Backend on Render (512MB RAM free tier)
-FROM maven:3.9.6-eclipse-temurin-17 AS builder
+# Project requires Java 21 (as configured in pom.xml)
+FROM maven:3.9.6-eclipse-temurin-21 AS builder
 WORKDIR /app
 COPY pom.xml .
 # Cache dependencies
@@ -7,8 +8,8 @@ RUN mvn dependency:go-offline -B
 COPY src ./src
 RUN mvn clean package -DskipTests -B
 
-# Minimal runtime image
-FROM eclipse-temurin:17-jre-jammy
+# Minimal runtime image with Java 21
+FROM eclipse-temurin:21-jre-jammy
 WORKDIR /app
 COPY --from=builder /app/target/*.jar app.jar
 RUN mkdir -p uploads
