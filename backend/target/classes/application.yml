@@ -1,0 +1,30 @@
+server:
+  port: 8080
+  servlet:
+    context-path: /api
+
+spring:
+  application:
+    name: edusphere-backend
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      max-file-size: 15MB
+      max-request-size: 20MB
+
+app:
+  jwt:
+    secret: 404E635266556A586E3272357538782F413F4428472B4B6250645367566B5970
+    expiration-ms: 86400000 # 24 hours
+  storage:
+    upload-dir: ./uploads
+  ml-service:
+    url: http://localhost:8000
+  gemini:
+    api-key: ${GEMINI_API_KEY:demo-key}
+
+logging:
+  level:
+    com.edusphere: INFO
+    org.springframework.security: INFO
